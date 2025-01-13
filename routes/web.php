@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ChatController;
 use App\Http\Middleware\RoleMiddleware;
 use Inertia\Inertia;
 
@@ -23,6 +24,9 @@ Route::middleware(RoleMiddleware::class . ':admin')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat/message', [ChatController::class, 'getMessage'])->name('chat.message');
+
 
 Auth::routes(['verify'=>true]);
 Route::get('/dashboard', function () {
