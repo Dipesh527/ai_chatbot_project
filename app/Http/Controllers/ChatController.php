@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\OpenAIService;
+use Illuminate\Support\Facades\Http;
+
 
 class ChatController extends Controller
 
 {
-    protected $openAIService;
-    public function __construct(OpenAIService $openAIService)
-    {
-        $this->openAIService = $openAIService;
-    }
+   
     public function index()
     {
         return view('chat.index'); // Points to resources/views/chat/index.blade.php
@@ -22,10 +19,22 @@ class ChatController extends Controller
     {
         $userMessage = $request->input('message');
 
-        $botResponse = "You said: " . $userMessage;
-        // Get AI response from the service
-        // $botResponse = $this->openAIService->getResponse($userMessage);
+       // Send the message to the Rasa server
+       $response = Http::post('http://localhost:5005/webhooks/rest/webhook', [
+        'sender' => 'user_id', // Unique user ID
+        'message' => $userMessage,
+    ]);
+
+        // Parse the Rasa response
+        $botMessages = $response->json();
+
+        if (!empty($botMessages)) {
+            $botResponse = $botMessages[0]['text'];
+        } else {
+            $botResponse = 'Sorry, I could not process your request.';
+        }
 
         return response()->json(['reply' => $botResponse]);
+
     }
 }
