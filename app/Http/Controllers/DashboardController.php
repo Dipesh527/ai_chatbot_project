@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Return a view or response for the main user dashboard
-        return view('dashboard.index'); // You can create this view later
+        return Inertia::render('Dashboard', [
+            'data' => [
+                'user' => auth()->user(),
+                // Add more data here as needed
+            ],
+        ]);
     }
 }

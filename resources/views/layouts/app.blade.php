@@ -31,7 +31,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <h1>Hello</h1>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -77,5 +77,7 @@
             @yield('content')
         </main>
     </div>
+     <!-- Add this line to expose Laravel routes to Ziggy -->
+     
 </body>
 </html>
